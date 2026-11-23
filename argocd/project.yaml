@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: shop-project
+  namespace: argocd
+spec:
+  description: ShopLab e-commerce website
+  sourceRepos:
+    - https://github.com/Obaidkhan19/argocd-shop.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: shop-*
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+  roles:
+    - name: readonly
+      description: View-only access
+      policies:
+        - p, proj:shop-project:readonly, applications, get, shop-project/*, allow

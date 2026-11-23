@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ShopLab - Online Store</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="env-banner" hidden></div>
+  <header>
+    <div class="logo">🛍️ ShopLab</div>
+    <input id="search" type="search" placeholder="Search products...">
+    <button id="cart-btn">🛒 Cart (<span id="cart-count">0</span>)</button>
+  </header>
+
+  <section class="hero">
+    <h1>Summer Sale - up to 40% off</h1>
+    <p>Free shipping on orders over €50</p>
+  </section>
+
+  <nav id="filters"></nav>
+  <main id="products" class="grid"></main>
+
+  <aside id="cart" class="cart hidden">
+    <div class="cart-head"><h2>Your cart</h2><button id="cart-close">✕</button></div>
+    <div id="cart-items"></div>
+    <div class="cart-foot">
+      <strong>Total: <span id="cart-total">€0.00</span></strong>
+      <button id="checkout" class="primary">Checkout</button>
+    </div>
+  </aside>
+
+  <footer>© ShopLab demo store, deployed with Argo CD + NGINX Ingress</footer>
+
+  <script src="env.js"></script>
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

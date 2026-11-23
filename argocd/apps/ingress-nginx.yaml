@@ -1,0 +1,41 @@
+# The NGINX Ingress controller itself, installed by Argo CD from its Helm chart.
+# Wave 0: must be ready before the shop apps (wave 1).
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-nginx
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    repoURL: https://kubernetes.github.io/ingress-nginx
+    chart: ingress-nginx
+    targetRevision: 4.15.1
+    helm:
+      values: |
+        controller:
+          ingressClassResource:
+            default: true
+          hostPort:
+            enabled: true          # kind: bind to ports 80/443 of the node
+          service:
+            type: NodePort
+          nodeSelector:
+            ingress-ready: "true"
+          tolerations:
+            - key: node-role.kubernetes.io/control-plane
+              operator: Equal
+              effect: NoSchedule
+          admissionWebhooks:
+            enabled: false         # keeps the local setup simple
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ingress-nginx
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

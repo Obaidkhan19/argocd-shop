@@ -1,0 +1,20 @@
+# PROD: manual sync only
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: shop-prod
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: shop-project
+  source:
+    repoURL: https://github.com/Obaidkhan19/argocd-shop.git
+    targetRevision: main
+    path: k8s/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: shop-prod
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
